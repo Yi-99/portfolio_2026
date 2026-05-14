@@ -110,7 +110,7 @@ export default function TweaksPanel({ sceneRef }) {
 
   if (!open) {
     return (
-      <button className="twk-toggle-btn" onClick={() => setOpen(true)} data-cursor="Tweak">
+      <button className="twk-toggle-btn" onClick={() => setOpen(true)}>
         ⚙
       </button>
     )

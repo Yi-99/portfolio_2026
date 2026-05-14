@@ -58,7 +58,7 @@ a, button, input, textarea, select, [data-cursor] { cursor: none; }
 /* ── Custom cursor ── */
 .cursor-ring, .cursor-dot {
   position: fixed; top: 0; left: 0;
-  pointer-events: none; z-index: 9999;
+  pointer-events: none; z-index: 2147483647;
   will-change: transform;
   transform: translate3d(-100px,-100px,0);
 }
@@ -1054,6 +1054,7 @@ select.twk-field{padding-right:22px;
 /* ── Tweaks toggle button ── */
 .twk-toggle-btn {
   position: fixed; right: 16px; bottom: 16px; z-index: 2147483645;
+  pointer-events: auto;
   width: 40px; height: 40px; border-radius: 12px;
   background: rgba(250,249,247,.78);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
