@@ -6,7 +6,7 @@ const WORK = [
   { id: '02', title: 'Nimbus Quote', year: '2025', role: 'Full-stack', client: 'Remi · Roofing SaaS', tags: ['3D', 'Google Maps', 'React'], span: 'half', glyph: 'grid', href: 'https://nimbusquote.com', thumb: '/nimbus-thumb.png', desc: 'Roofing estimation SaaS with 3D roof visualization on Google Maps. Instant quotes from aerial imagery with interactive measurement tools.' },
   { id: '03', title: 'Dub.it', year: '2025', role: 'Lead engineer', client: '1st Place · Weber State', tags: ['Extension', 'ElevenLabs', 'Web'], span: 'half', glyph: 'wave', desc: 'Browser extension that dubs web videos in real-time using ElevenLabs voice synthesis. Won 1st place at Weber State hackathon.' },
   { id: '04', title: 'Remi 2.0', year: '2025', role: 'Full-stack', client: '1st Place · JustBuild', tags: ['Google API', 'Solar', 'Maps'], span: 'half', glyph: 'grid', desc: 'Solar panel placement optimizer using Google Maps API for roof detection and energy output estimation. 1st place at JustBuild hackathon.' },
-  { id: '05', title: 'Glod-AI', year: '2024', role: 'System design · Backend', client: 'Google Gemini Competition', tags: ['FastAPI', 'Supabase', 'Video'], span: 'featured', glyph: 'rings', href: 'https://www.linkedin.com/company/gl%C3%B6d-ai/about/?viewAsMember=true', desc: 'Video analysis platform built for the Google Gemini competition. FastAPI backend with Supabase storage, processing video content through Gemini for intelligent summarization.' },
+  { id: '05', title: 'Glod-AI', year: '2024', role: 'System design · Backend', client: 'Google Gemini Competition', tags: ['FastAPI', 'Supabase', 'Video'], span: 'featured', glyph: 'rings', href: 'https://www.linkedin.com/company/gl%C3%B6d-ai/about/?viewAsMember=true', video: 'uao6JdYdJZE', desc: 'Video analysis platform built for the Google Gemini competition. FastAPI backend with Supabase storage, processing video content through Gemini for intelligent summarization.' },
 ]
 
 function WorkCard({ w, cascade }) {
@@ -42,7 +42,15 @@ function WorkCard({ w, cascade }) {
     >
       <div className="card-body">
         <div className="card-thumb">
-          {w.thumb ? (
+          {w.video ? (
+            <iframe
+              src={`https://www.youtube.com/embed/${w.video}`}
+              title={w.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ width: '100%', height: '100%', border: 'none', borderRadius: '10px' }}
+            />
+          ) : w.thumb ? (
             <img src={w.thumb} alt={w.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
           ) : (
             <>
