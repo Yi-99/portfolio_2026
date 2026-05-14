@@ -240,7 +240,7 @@ const Scene = forwardRef(function Scene(_, ref) {
     }
 
     // Custom shader material for textured surface
-    const accentColor = new THREE.Color(0x7aa9ff)
+    const accentColor = new THREE.Color(0x2a5ccc)
     const shaderUniforms = {
       uTime: { value: 0 },
       uAccent: { value: accentColor },
@@ -275,7 +275,7 @@ const Scene = forwardRef(function Scene(_, ref) {
     // Core glow — slightly larger, more dynamic
     const core = new THREE.Mesh(
       new THREE.SphereGeometry(0.22, 32, 32),
-      new THREE.MeshBasicMaterial({ color: 0x7aa9ff, transparent: true, opacity: 0.9 })
+      new THREE.MeshBasicMaterial({ color: 0x2a5ccc, transparent: true, opacity: 0.9 })
     )
     scene.add(core)
 
@@ -283,7 +283,7 @@ const Scene = forwardRef(function Scene(_, ref) {
     const coreHaze = new THREE.Mesh(
       new THREE.SphereGeometry(0.6, 16, 16),
       new THREE.MeshBasicMaterial({
-        color: 0x7aa9ff, transparent: true, opacity: 0.12,
+        color: 0x2a5ccc, transparent: true, opacity: 0.12,
         blending: THREE.AdditiveBlending, depthWrite: false,
       })
     )
@@ -291,7 +291,7 @@ const Scene = forwardRef(function Scene(_, ref) {
 
     const halo = new THREE.Mesh(
       new THREE.RingGeometry(3.4, 3.42, 96),
-      new THREE.MeshBasicMaterial({ color: 0x7aa9ff, transparent: true, opacity: 0.18, side: THREE.DoubleSide })
+      new THREE.MeshBasicMaterial({ color: 0x2a5ccc, transparent: true, opacity: 0.18, side: THREE.DoubleSide })
     )
     scene.add(halo)
 

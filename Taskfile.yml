@@ -1,0 +1,23 @@
+version: '3'
+
+tasks:
+  dev:
+    desc: Start dev server
+    cmd: pnpm dev
+
+  build:
+    desc: Build for production
+    cmd: pnpm build
+
+  deploy:
+    desc: Build and deploy to GitHub Pages
+    cmds:
+      - pnpm build
+      - |
+        cd dist
+        git init
+        git checkout -b gh-pages
+        echo "yiranglim.com" > CNAME
+        git add -A
+        git commit -m "deploy"
+        git push -f git@github.com:Yi-99/portfolio_2026.git gh-pages

@@ -1,8 +1,8 @@
 const CHANNELS = [
-  { label: 'aria@quill.studio', href: 'mailto:aria@quill.studio' },
-  { label: '@ariaquill', href: '#', note: 'Are.na' },
-  { label: '@ariaquill', href: '#', note: 'Read.cv' },
-  { label: '+44 7700 900 245', href: '#' },
+  { label: 'ylim.8299@gmail.com', href: 'mailto:ylim.8299@gmail.com' },
+  { label: 'yirang-lim', href: 'https://www.linkedin.com/in/yirang-lim', note: 'LinkedIn' },
+  { label: 'Yi-99', href: 'https://github.com/Yi-99', note: 'GitHub' },
+  { label: '(334) 922-9715', href: 'tel:+13349229715' },
 ]
 
 export default function Contact() {
@@ -16,8 +16,8 @@ export default function Contact() {
           Have a project that<br />
           deserves <em>patience?</em>
         </h2>
-        <a href="mailto:aria@quill.studio" className="contact-cta reveal" data-delay="2" data-cursor="Send">
-          aria@quill.studio
+        <a href="mailto:ylim.8299@gmail.com" className="contact-cta reveal" data-delay="2" data-cursor="Send">
+          ylim.8299@gmail.com
           <span className="glyph" />
         </a>
         <div className="contact-channels">
@@ -29,11 +29,10 @@ export default function Contact() {
         </div>
         <div className="foot">
           <div className="col">
-            <span>© Quill Studio · MMXXVI</span>
-            <span>v3.2</span>
+            <span>© Yirang Lim · 2026</span>
           </div>
           <div className="col">
-            <span>Built quietly in Reykjavík</span>
+            <span>Built with React + Three.js</span>
           </div>
         </div>
       </div>

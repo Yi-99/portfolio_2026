@@ -1,5 +1,5 @@
 export default function Marquee() {
-  const items = ['Interfaces', 'Identity', 'Motion', '3D', 'Generative', 'Direction']
+  const items = ['React', 'AWS', 'Python', 'FastAPI', 'Docker', 'TypeScript']
 
   function Row({ offset }) {
     return (

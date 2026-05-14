@@ -1,7 +1,7 @@
 export default function Hero() {
-  const headline1 = 'Designing'
-  const headline2 = 'the spaces'
-  const headline3 = 'between'
+  const headline1 = 'Building'
+  const headline2 = 'what matters'
+  const headline3 = 'at scale'
 
   function split(str, offset = 0) {
     return str.split('').map((ch, i) => (
@@ -24,7 +24,7 @@ export default function Hero() {
       <div className="hero-inner shell">
         <div className="eyebrow reveal" data-cursor="">
           <span className="dot" />
-          Independent · 2014 — Present
+          Staff Software Engineer · HEAL Access USA
         </div>
 
         <h1 className="split is-in">
@@ -34,24 +34,23 @@ export default function Hero() {
         </h1>
 
         <p className="lede reveal" data-delay="3">
-          A studio of one — building interfaces, identities and small worlds
-          for ambitious teams in emerging technology. Currently accepting one
-          engagement for Q3 2026.
+          Full-stack engineer with a knack for scalable systems, cloud infrastructure,
+          and AI-powered pipelines.
         </p>
       </div>
 
       <div className="hero-meta">
         <div className="col reveal" data-delay="4">
-          <span>Reykjavík, IS</span>
-          <span>64.146°N · 21.942°W</span>
+          <span>HEAL Access USA</span>
+          <span>Chandler, AZ</span>
         </div>
         <div className="col reveal" data-delay="4" style={{ alignItems: 'center', textAlign: 'center' }}>
           <span>Local time</span>
           <span>{time} GMT</span>
         </div>
         <div className="col reveal" data-delay="4" style={{ alignItems: 'flex-end', textAlign: 'right' }}>
-          <span>Availability</span>
-          <span>Q3 · 2026</span>
+          <span>Languages</span>
+          <span>EN · KR · FA</span>
         </div>
       </div>
 

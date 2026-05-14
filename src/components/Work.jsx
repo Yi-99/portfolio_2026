@@ -2,12 +2,11 @@ import { useRef } from 'react'
 import Glyph from './Glyphs'
 
 const WORK = [
-  { id: '01', title: 'Lattice OS', year: '2025', role: 'Lead designer', client: 'Halcyon Robotics', tags: ['Interface', 'Motion', '3D'], span: 'featured', glyph: 'lattice' },
-  { id: '02', title: 'Nimbus', year: '2025', role: 'Art direction', client: 'Northwind Labs', tags: ['Brand', 'Type'], span: 'third', glyph: 'rings' },
-  { id: '03', title: 'Quietfield', year: '2024', role: 'Product + motion', client: 'Quietfield Health', tags: ['iOS', 'Motion'], span: 'half', glyph: 'ribbon' },
-  { id: '04', title: 'Coastline 06', year: '2024', role: 'Generative', client: 'Self-initiated', tags: ['Generative', 'Print'], span: 'half', glyph: 'grid' },
-  { id: '05', title: 'Fieldnote', year: '2023', role: 'Product', client: 'Fieldnote', tags: ['Web', 'Editor'], span: 'third', glyph: 'dots' },
-  { id: '06', title: 'Concord', year: '2023', role: 'Brand · Web', client: 'Concord.fm', tags: ['Audio', 'Brand'], span: 'third', glyph: 'wave' },
+  { id: '01', title: 'Logos · PhiloAI', year: '2025', role: 'Full-stack · AI', client: 'Personal Project', tags: ['LLM', 'React', 'RAG'], span: 'half', glyph: 'lattice', href: 'https://logos.philo-ai.com', thumb: '/logos-thumb.png' },
+  { id: '02', title: 'Nimbus Quote', year: '2025', role: 'Full-stack', client: 'Remi · Roofing SaaS', tags: ['3D', 'Google Maps', 'React'], span: 'half', glyph: 'grid', href: 'https://nimbusquote.com', thumb: '/nimbus-thumb.png' },
+  { id: '03', title: 'Dub.it', year: '2025', role: 'Lead engineer', client: '1st Place · Weber State', tags: ['Extension', 'ElevenLabs', 'Web'], span: 'half', glyph: 'wave' },
+  { id: '04', title: 'Remi 2.0', year: '2025', role: 'Full-stack', client: '1st Place · JustBuild', tags: ['Google API', 'Solar', 'Maps'], span: 'half', glyph: 'grid' },
+  { id: '05', title: 'Glod-AI', year: '2024', role: 'System design · Backend', client: 'Google Gemini Competition', tags: ['FastAPI', 'Supabase', 'Video'], span: 'featured', glyph: 'rings', href: 'https://www.linkedin.com/company/gl%C3%B6d-ai/about/?viewAsMember=true' },
 ]
 
 function WorkCard({ w, cascade }) {
@@ -32,7 +31,7 @@ function WorkCard({ w, cascade }) {
     el.style.transform = ''
   }
 
-  return (
+  const card = (
     <article
       ref={ref}
       className={'card star-enter ' + w.span}
@@ -42,8 +41,14 @@ function WorkCard({ w, cascade }) {
       data-cascade={cascade}
     >
       <div className="card-thumb">
-        <span className="placeholder-tag">Placeholder · {w.glyph}</span>
-        <Glyph kind={w.glyph} />
+        {w.thumb ? (
+          <img src={w.thumb} alt={w.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
+        ) : (
+          <>
+            <span className="placeholder-tag">Placeholder · {w.glyph}</span>
+            <Glyph kind={w.glyph} />
+          </>
+        )}
       </div>
       <div>
         <div className="card-head">
@@ -61,15 +66,20 @@ function WorkCard({ w, cascade }) {
       </div>
     </article>
   )
+
+  if (w.href) {
+    return <a href={w.href} target="_blank" rel="noopener noreferrer" style={{ display: 'contents', textDecoration: 'none', color: 'inherit' }}>{card}</a>
+  }
+  return card
 }
 
 export default function Work() {
   return (
     <section className="section" id="work">
       <div className="shell">
-        <div className="section-tag reveal">§ 01 — Selected work</div>
+        <div className="section-tag reveal">§ 01 — Projects</div>
         <h2 className="reveal" data-delay="1">
-          A handful of <em>recent</em> orbits — each<br />one a different kind of weather.
+          Things I've <em>built</em> — from hackathons<br />to production systems.
         </h2>
         <div className="work-grid">
           {WORK.map((w, i) => <WorkCard key={w.id} w={w} cascade={i + 1} />)}

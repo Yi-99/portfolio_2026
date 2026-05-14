@@ -28,10 +28,10 @@ export default function Nav() {
 
   return (
     <nav className="nav" data-cursor="">
-      <div className="nav-brand">Aria&nbsp;Quill / Studio</div>
-      <button className={'nav-link' + (active === 'work' ? ' is-active' : '')} onClick={() => go('work')} data-cursor="">Work</button>
-      <button className={'nav-link' + (active === 'studio' ? ' is-active' : '')} onClick={() => go('studio')} data-cursor="">Studio</button>
-      <button className={'nav-link' + (active === 'capabilities' ? ' is-active' : '')} onClick={() => go('capabilities')} data-cursor="">Practice</button>
+      <div className="nav-brand">Yirang&nbsp;Lim</div>
+      <button className={'nav-link' + (active === 'work' ? ' is-active' : '')} onClick={() => go('work')} data-cursor="">Projects</button>
+      <button className={'nav-link' + (active === 'studio' ? ' is-active' : '')} onClick={() => go('studio')} data-cursor="">Experience</button>
+      <button className={'nav-link' + (active === 'capabilities' ? ' is-active' : '')} onClick={() => go('capabilities')} data-cursor="">Skills</button>
       <button className="nav-cta" onClick={() => go('contact')} data-cursor="↗">
         Get in touch
       </button>

@@ -1,29 +1,29 @@
 const STATS = [
-  { num: '11', lab: 'Years independent' },
-  { num: '47', lab: 'Shipped projects' },
-  { num: '4', lab: 'Awwwards · SoTD' },
+  { num: '5x', lab: '1st Place Hackathons' },
+  { num: '7', lab: 'API Integrations' },
+  { num: '99.9%', lab: 'Delivery Reliability' },
 ]
 
 export default function Studio() {
   return (
     <section className="section" id="studio">
       <div className="shell">
-        <div className="section-tag reveal">§ 02 — Studio</div>
+        <div className="section-tag reveal">§ 02 — Experience</div>
         <h2 className="reveal" data-delay="1">
-          <em>Eleven years</em> of designing<br />
-          for teams who would rather<br />
-          be making than describing.
+          From <em>microservices</em> to<br />
+          AI pipelines — building<br />
+          systems that scale.
         </h2>
         <div className="about-grid">
           <div className="about-copy">
             <p className="reveal">
-              <strong>Aria Quill</strong> is an independent design practice operating out of a small studio in Reykjavík. The work moves between product, brand and motion — though those lines blur most weeks.
+              <strong>Staff Software Engineer at HEAL Access USA</strong> — designing shared API frameworks, OAuth 2.0 flows across 7 integrations, and a serverless email pipeline processing 50K+ messages with LLMs at 99.9% reliability.
             </p>
             <p className="reveal" data-delay="1">
-              Engagements are kept deliberately small: one project at a time, four to twelve weeks, embedded with the founding team. Clients have included early-stage robotics labs, audio platforms, climate instruments and a handful of artists.
+              Previously at <strong>BYU Broadcasting</strong>, built a highly scalable microservice delivering 1TB+ of real-time user data daily via Fargate ECS, ElastiCache, and Kinesis — achieving 99% success rate under 1000% spike tests with 2M+ requests in 9 minutes.
             </p>
             <p className="reveal" data-delay="2">
-              Outside of client work I write infrequently about typography, latency and the quiet design of physical things. The studio runs an annual fellowship — one designer, one summer, no deliverables.
+              At <strong>TDP Bakery</strong>, replaced legacy Docuware with an in-house solution saving $10K+, and rebuilt product management workflows from Microsoft Access into a modern web application with .NET APIs.
             </p>
             <div className="stat-grid">
               {STATS.map((s, i) => (
@@ -37,7 +37,7 @@ export default function Studio() {
 
           <div className="portrait reveal" data-delay="2" data-cursor="">
             <span className="placeholder-tag">Drop portrait · 4:5</span>
-            <div className="cross">A·Q</div>
+            <div className="cross">Y·L</div>
           </div>
         </div>
       </div>
