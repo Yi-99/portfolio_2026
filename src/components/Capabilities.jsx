@@ -10,7 +10,7 @@ export default function Capabilities() {
   return (
     <section className="section" id="capabilities">
       <div className="shell">
-        <div className="section-tag reveal">§ 03 — Skills</div>
+        <div className="section-tag reveal">§ 04 — Skills</div>
         <h2 className="reveal" data-delay="1">
           What I <em>work</em><br />
           with every day.

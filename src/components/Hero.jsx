@@ -24,7 +24,7 @@ export default function Hero() {
       <div className="hero-inner shell">
         <div className="eyebrow reveal" data-cursor="">
           <span className="dot" />
-          Staff Software Engineer · HEAL Access USA
+          Software Engineer · HEAL Access USA
         </div>
 
         <h1 className="split is-in">

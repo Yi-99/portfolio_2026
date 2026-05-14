@@ -106,6 +106,9 @@ void main() {
   vec3 halfDir = normalize(lightDir + viewDir);
   float spec = pow(max(dot(normal, halfDir), 0.0), 32.0);
 
+  // Cursor spotlight — concentrated bright hotspot where cursor aims
+  float spotlight = pow(max(diffuse, 0.0), 5.0);
+
   // Fresnel rim glow
   float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 3.0);
 
@@ -139,9 +142,11 @@ void main() {
 
   // Compose with lighting
   vec3 color = baseColor + ambient;
-  color += uAccent * wrapDiffuse * 0.35;
-  color += vec3(0.9, 0.92, 1.0) * diffuse * 0.15;
-  color += uAccent * spec * 0.4;
+  color += uAccent * wrapDiffuse * 0.25;
+  color += vec3(0.9, 0.92, 1.0) * diffuse * 0.1;
+  color += uAccent * spec * 0.3;
+  color += uAccent * spotlight * 0.8;
+  color += vec3(1.0, 1.0, 1.0) * spotlight * 0.3;
   color += veinColor * veins * 0.4;
   color += uAccent * fresnel * (0.4 + uScrollProgress * 0.6);
   color += iri * fresnel * 0.08;

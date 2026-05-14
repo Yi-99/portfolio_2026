@@ -4,7 +4,7 @@ export default function Nav() {
   const [active, setActive] = useState('work')
 
   useEffect(() => {
-    const ids = ['work', 'studio', 'capabilities', 'contact']
+    const ids = ['about', 'studio', 'work', 'capabilities', 'contact']
     const sections = ids.map((id) => document.getElementById(id)).filter(Boolean)
 
     function onScroll() {
@@ -29,8 +29,9 @@ export default function Nav() {
   return (
     <nav className="nav" data-cursor="">
       <div className="nav-brand">Yirang&nbsp;Lim</div>
-      <button className={'nav-link' + (active === 'work' ? ' is-active' : '')} onClick={() => go('work')} data-cursor="">Projects</button>
+      <button className={'nav-link' + (active === 'about' ? ' is-active' : '')} onClick={() => go('about')} data-cursor="">About</button>
       <button className={'nav-link' + (active === 'studio' ? ' is-active' : '')} onClick={() => go('studio')} data-cursor="">Experience</button>
+      <button className={'nav-link' + (active === 'work' ? ' is-active' : '')} onClick={() => go('work')} data-cursor="">Projects</button>
       <button className={'nav-link' + (active === 'capabilities' ? ' is-active' : '')} onClick={() => go('capabilities')} data-cursor="">Skills</button>
       <button className="nav-cta" onClick={() => go('contact')} data-cursor="↗">
         Get in touch

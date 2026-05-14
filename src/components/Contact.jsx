@@ -10,13 +10,18 @@ export default function Contact() {
     <section className="section contact" id="contact">
       <div className="shell">
         <div className="section-tag reveal" style={{ justifyContent: 'center', display: 'inline-flex' }}>
-          § 04 — Get in touch
+          § 05 — Get in touch
         </div>
         <h2 className="reveal" data-delay="1">
           Have a vision that<br />
           needs <em>engineering?</em>
         </h2>
-        <a href="mailto:ylim.8299@gmail.com" className="contact-cta reveal" data-delay="2" data-cursor="Send">
+        <a href="mailto:ylim.8299@gmail.com" className="contact-cta reveal" data-delay="2" data-cursor="Send"
+          onMouseMove={(e) => {
+            const r = e.currentTarget.getBoundingClientRect()
+            e.currentTarget.style.setProperty('--cx', ((e.clientX - r.left) / r.width * 100) + '%')
+            e.currentTarget.style.setProperty('--cy', ((e.clientY - r.top) / r.height * 100) + '%')
+          }}>
           ylim.8299@gmail.com
           <span className="glyph" />
         </a>

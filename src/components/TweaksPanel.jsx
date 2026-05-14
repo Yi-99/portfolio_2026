@@ -93,6 +93,7 @@ export default function TweaksPanel({ sceneRef }) {
         const r = parseInt(val.slice(1, 3), 16)
         const g = parseInt(val.slice(3, 5), 16)
         const b = parseInt(val.slice(5, 7), 16)
+        document.documentElement.style.setProperty('--accent-rgb', `${r},${g},${b}`)
         document.documentElement.style.setProperty('--accent-2', `rgba(${r},${g},${b},0.18)`)
         sceneRef.current?.setAccent(val)
       } else if (key === 'geometry') {

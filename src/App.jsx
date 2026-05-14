@@ -4,6 +4,7 @@ import CustomCursor from './components/CustomCursor'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
+import About from './components/About'
 import Work from './components/Work'
 import Studio from './components/Studio'
 import Capabilities from './components/Capabilities'
@@ -44,8 +45,9 @@ export default function App() {
       <main>
         <Hero />
         <Marquee />
-        <Work />
+        <About />
         <Studio />
+        <Work />
         <Capabilities />
         <Contact />
       </main>
