@@ -33,7 +33,12 @@ export default function Nav() {
       <button className={'nav-link' + (active === 'studio' ? ' is-active' : '')} onClick={() => go('studio')} data-cursor="">Experience</button>
       <button className={'nav-link' + (active === 'work' ? ' is-active' : '')} onClick={() => go('work')} data-cursor="">Projects</button>
       <button className={'nav-link' + (active === 'capabilities' ? ' is-active' : '')} onClick={() => go('capabilities')} data-cursor="">Skills</button>
-      <button className="nav-cta" onClick={() => go('contact')} data-cursor="↗">
+      <button className="nav-cta" onClick={() => go('contact')} data-cursor="↗"
+        onMouseMove={(e) => {
+          const r = e.currentTarget.getBoundingClientRect()
+          e.currentTarget.style.setProperty('--cx', ((e.clientX - r.left) / r.width * 100) + '%')
+          e.currentTarget.style.setProperty('--cy', ((e.clientY - r.top) / r.height * 100) + '%')
+        }}>
         Get in touch
       </button>
     </nav>
