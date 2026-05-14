@@ -84,15 +84,30 @@ ${snoise}
 uniform float uTime;
 uniform vec3 uAccent;
 uniform float uScrollProgress;
+uniform vec3 uLightDir;
 varying vec3 vNormal;
 varying vec3 vPosition;
 varying float vDisp;
 varying vec2 vUv;
 
 void main() {
-  // Fresnel rim glow
+  vec3 normal = normalize(vNormal);
   vec3 viewDir = normalize(cameraPosition - vPosition);
-  float fresnel = pow(1.0 - max(dot(vNormal, viewDir), 0.0), 3.0);
+
+  // Directional light (follows cursor)
+  vec3 lightDir = normalize(uLightDir);
+  float NdotL = dot(normal, lightDir);
+  float diffuse = max(NdotL, 0.0);
+  // Wrap lighting — pushes light into shadow areas, kills black spots
+  float wrapDiffuse = (NdotL + 0.6) / 1.6;
+  wrapDiffuse = max(wrapDiffuse, 0.0);
+
+  // Specular highlight
+  vec3 halfDir = normalize(lightDir + viewDir);
+  float spec = pow(max(dot(normal, halfDir), 0.0), 32.0);
+
+  // Fresnel rim glow
+  float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 3.0);
 
   // Animated surface noise pattern
   float pattern = snoise(vPosition * 2.5 + uTime * 0.15);
@@ -103,8 +118,11 @@ void main() {
   float cells = snoise(vPosition * 8.0 + uTime * 0.05);
   cells = smoothstep(0.0, 0.15, abs(cells));
 
-  // Base dark color
-  vec3 baseColor = vec3(0.04, 0.04, 0.06);
+  // Raised base color — no pure black
+  vec3 baseColor = vec3(0.10, 0.10, 0.14);
+
+  // Ambient light floor
+  vec3 ambient = uAccent * 0.08 + vec3(0.06, 0.06, 0.08);
 
   // Accent-tinted veins that pulse with scroll
   vec3 veinColor = uAccent * (0.3 + uScrollProgress * 0.5);
@@ -119,8 +137,11 @@ void main() {
     sin(iriShift + 4.189) * 0.5 + 0.5
   );
 
-  // Compose
-  vec3 color = baseColor;
+  // Compose with lighting
+  vec3 color = baseColor + ambient;
+  color += uAccent * wrapDiffuse * 0.35;
+  color += vec3(0.9, 0.92, 1.0) * diffuse * 0.15;
+  color += uAccent * spec * 0.4;
   color += veinColor * veins * 0.4;
   color += uAccent * fresnel * (0.4 + uScrollProgress * 0.6);
   color += iri * fresnel * 0.08;
@@ -167,6 +188,22 @@ const Scene = forwardRef(function Scene(_, ref) {
     const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 200)
     camera.position.set(0, 0, 28)
 
+    // ── Soft star sprite texture ──
+    const starCanvas = document.createElement('canvas')
+    starCanvas.width = 64
+    starCanvas.height = 64
+    const ctx = starCanvas.getContext('2d')
+    const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
+    grad.addColorStop(0, 'rgba(255,255,255,1)')
+    grad.addColorStop(0.08, 'rgba(255,255,255,1)')
+    grad.addColorStop(0.2, 'rgba(255,255,255,0.9)')
+    grad.addColorStop(0.35, 'rgba(255,255,255,0.5)')
+    grad.addColorStop(0.6, 'rgba(255,255,255,0.15)')
+    grad.addColorStop(1, 'rgba(255,255,255,0)')
+    ctx.fillStyle = grad
+    ctx.fillRect(0, 0, 64, 64)
+    const starTexture = new THREE.CanvasTexture(starCanvas)
+
     // ── Starfield ──
     function makeStars(count, radius, size, color, opacity) {
       const geo = new THREE.BufferGeometry()
@@ -184,13 +221,14 @@ const Scene = forwardRef(function Scene(_, ref) {
         color, size, sizeAttenuation: true,
         transparent: true, opacity, depthWrite: false,
         blending: THREE.AdditiveBlending,
+        map: starTexture,
       })
       return new THREE.Points(geo, mat)
     }
 
-    const farStars = makeStars(1400, 80, 0.08, 0xbfd4ff, 0.55)
-    const midStars = makeStars(700, 50, 0.12, 0xffffff, 0.7)
-    const nearStars = makeStars(220, 24, 0.18, 0xffe8c2, 0.85)
+    const farStars = makeStars(1400, 80, 0.22, 0xffffff, 0.9)
+    const midStars = makeStars(700, 50, 0.32, 0xffffff, 1.0)
+    const nearStars = makeStars(220, 24, 0.45, 0xffffff, 1.0)
     scene.add(farStars, midStars, nearStars)
 
     // ── Higher-subdivision geometries for visible texture ──
@@ -208,6 +246,7 @@ const Scene = forwardRef(function Scene(_, ref) {
       uAccent: { value: accentColor },
       uDisplacement: { value: 0.12 },
       uScrollProgress: { value: 0 },
+      uLightDir: { value: new THREE.Vector3(1, 0.8, 1.5).normalize() },
     }
 
     const texturedMat = new THREE.ShaderMaterial({
@@ -219,66 +258,17 @@ const Scene = forwardRef(function Scene(_, ref) {
       depthWrite: true,
     })
 
-    // Wireframe overlay — thinner, more subdivided
-    const wireMat = new THREE.LineBasicMaterial({
-      color: 0xc8d8ff, transparent: true, opacity: 0.18,
-    })
-
-    // Secondary fine wireframe for texture feel
-    const fineWireMat = new THREE.MeshBasicMaterial({
-      color: 0xc8d8ff, wireframe: true, transparent: true, opacity: 0.05,
-    })
-
     const objGroup = new THREE.Group()
     scene.add(objGroup)
 
-    let mesh = null, wire = null, fineWire = null, surfaceParticles = null
-
-    function makeSurfaceParticles(geometry) {
-      const positions = geometry.attributes.position
-      const count = Math.min(positions.count, 800)
-      const particleGeo = new THREE.BufferGeometry()
-      const pPos = new Float32Array(count * 3)
-      const pSizes = new Float32Array(count)
-      const step = Math.max(1, Math.floor(positions.count / count))
-
-      for (let i = 0; i < count; i++) {
-        const idx = (i * step) % positions.count
-        pPos[i * 3] = positions.getX(idx)
-        pPos[i * 3 + 1] = positions.getY(idx)
-        pPos[i * 3 + 2] = positions.getZ(idx)
-        pSizes[i] = 0.02 + Math.random() * 0.04
-      }
-      particleGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3))
-
-      const particleMat = new THREE.PointsMaterial({
-        color: accentColor,
-        size: 0.04,
-        sizeAttenuation: true,
-        transparent: true,
-        opacity: 0.6,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      })
-
-      return new THREE.Points(particleGeo, particleMat)
-    }
+    let mesh = null
 
     function setGeometry(name) {
       if (mesh) objGroup.remove(mesh)
-      if (wire) objGroup.remove(wire)
-      if (fineWire) objGroup.remove(fineWire)
-      if (surfaceParticles) objGroup.remove(surfaceParticles)
 
       const g = geos[name] || geos.icosahedron
-
       mesh = new THREE.Mesh(g, texturedMat)
-      wire = new THREE.LineSegments(new THREE.EdgesGeometry(g, 12), wireMat)
-      fineWire = new THREE.Mesh(g, fineWireMat)
-      fineWire.scale.setScalar(1.002)
-      surfaceParticles = makeSurfaceParticles(g)
-
-      objGroup.add(mesh, wire, fineWire, surfaceParticles)
+      objGroup.add(mesh)
     }
     setGeometry('icosahedron')
 
@@ -356,8 +346,13 @@ const Scene = forwardRef(function Scene(_, ref) {
       // Update shader uniforms
       shaderUniforms.uTime.value = t
       shaderUniforms.uScrollProgress.value = state.scroll
-      // Displacement grows as user scrolls in — more detail revealed up close
       shaderUniforms.uDisplacement.value = 0.08 + state.scroll * 0.18
+      // Light follows cursor — comes from where mouse points
+      shaderUniforms.uLightDir.value.set(
+        state.mouseX * 2.0,
+        -state.mouseY * 2.0,
+        1.5
+      ).normalize()
 
       objGroup.rotation.x = t * 0.08
       objGroup.rotation.y = t * 0.12
@@ -367,12 +362,6 @@ const Scene = forwardRef(function Scene(_, ref) {
       objGroup.scale.setScalar(s)
 
       // Surface particles: gentle drift
-      if (surfaceParticles) {
-        surfaceParticles.rotation.x = t * 0.05
-        surfaceParticles.rotation.y = -t * 0.03
-        surfaceParticles.material.opacity = 0.3 + state.scroll * 0.5
-      }
-
       // Core breathing
       const breath = 1 + Math.sin(t * 1.5) * 0.22
       core.scale.setScalar(breath)
@@ -383,10 +372,6 @@ const Scene = forwardRef(function Scene(_, ref) {
       halo.rotation.z = t * 0.1
       halo2.rotation.z = -t * 0.04
       halo.material.opacity = 0.12 + state.scroll * 0.12
-
-      // Wire opacity increases on scroll — reveals structure up close
-      wireMat.opacity = 0.12 + state.scroll * 0.2
-      fineWireMat.opacity = 0.03 + state.scroll * 0.06
 
       farStars.rotation.y = t * 0.01
       midStars.rotation.y = -t * 0.018
@@ -404,16 +389,14 @@ const Scene = forwardRef(function Scene(_, ref) {
         const c = new THREE.Color(hex)
         accentColor.copy(c)
         shaderUniforms.uAccent.value = c
-        wireMat.color.copy(c)
         core.material.color.copy(c)
         coreHaze.material.color.copy(c)
         halo.material.color.copy(c)
-        if (surfaceParticles) surfaceParticles.material.color.copy(c)
       },
       setDensity(mult) {
-        farStars.material.opacity = 0.55 * mult
-        midStars.material.opacity = 0.7 * mult
-        nearStars.material.opacity = 0.85 * mult
+        farStars.material.opacity = 0.9 * mult
+        midStars.material.opacity = 1.0 * mult
+        nearStars.material.opacity = 1.0 * mult
       },
       setFog(d) {
         scene.fog.density = d
