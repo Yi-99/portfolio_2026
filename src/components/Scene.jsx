@@ -254,7 +254,7 @@ const Scene = forwardRef(function Scene(_, ref) {
       fragmentShader: texturedFragmentShader,
       uniforms: shaderUniforms,
       transparent: true,
-      side: THREE.DoubleSide,
+      side: THREE.FrontSide,
       depthWrite: true,
     })
 

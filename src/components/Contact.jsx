@@ -13,8 +13,8 @@ export default function Contact() {
           § 04 — Get in touch
         </div>
         <h2 className="reveal" data-delay="1">
-          Have a project that<br />
-          deserves <em>patience?</em>
+          Have a vision that<br />
+          needs <em>engineering?</em>
         </h2>
         <a href="mailto:ylim.8299@gmail.com" className="contact-cta reveal" data-delay="2" data-cursor="Send">
           ylim.8299@gmail.com
