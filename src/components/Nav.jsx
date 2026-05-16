@@ -28,11 +28,18 @@ export default function Nav() {
 
   return (
     <nav className="nav" data-cursor="">
-      <div className="nav-brand">Yirang&nbsp;Lim</div>
-      <button className={'nav-link' + (active === 'about' ? ' is-active' : '')} onClick={() => go('about')} data-cursor="">About</button>
-      <button className={'nav-link' + (active === 'studio' ? ' is-active' : '')} onClick={() => go('studio')} data-cursor="">Experience</button>
-      <button className={'nav-link' + (active === 'work' ? ' is-active' : '')} onClick={() => go('work')} data-cursor="">Projects</button>
-      <button className={'nav-link' + (active === 'capabilities' ? ' is-active' : '')} onClick={() => go('capabilities')} data-cursor="">Skills</button>
+      <div
+        className="nav-brand"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        data-cursor="Top"
+        style={{ cursor: 'pointer' }}
+      >
+        Yirang&nbsp;Lim
+      </div>
+      <button className={'nav-link' + (active === 'about' ? ' is-active' : '')} onClick={() => go('about')} data-cursor="About">About</button>
+      <button className={'nav-link' + (active === 'studio' ? ' is-active' : '')} onClick={() => go('studio')} data-cursor="Experience">Experience</button>
+      <button className={'nav-link' + (active === 'work' ? ' is-active' : '')} onClick={() => go('work')} data-cursor="Projects">Projects</button>
+      <button className={'nav-link' + (active === 'capabilities' ? ' is-active' : '')} onClick={() => go('capabilities')} data-cursor="Skills">Skills</button>
       <button className="nav-cta" onClick={() => go('contact')} data-cursor="↗"
         onMouseMove={(e) => {
           const r = e.currentTarget.getBoundingClientRect()

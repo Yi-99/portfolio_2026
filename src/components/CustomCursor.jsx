@@ -29,9 +29,10 @@ export default function CustomCursor() {
       if (t) {
         ring.classList.add('is-hover')
         const lbl = t.getAttribute('data-cursor')
-        if (lbl && label) label.textContent = lbl
+        if (label) label.textContent = lbl || ''
       } else {
         ring.classList.remove('is-hover')
+        if (label) label.textContent = ''
       }
     }
 
