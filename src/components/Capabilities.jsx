@@ -1,9 +1,9 @@
 const CAPABILITIES = [
-  { idx: '01', name: 'Full-stack development', desc: 'React, Next.js, Angular on the front. FastAPI, .NET, Node on the back. End-to-end ownership.', range: 'TypeScript · Python' },
-  { idx: '02', name: 'Cloud & infrastructure', desc: 'AWS Lambda, ECS, SQS, EventBridge, ElastiCache. Docker, Terraform, GitHub Actions.', range: 'AWS · Docker' },
+  { idx: '01', name: 'Full-stack development', desc: 'Flutter and Dart for mobile. React on the front. FastAPI on the back. End-to-end ownership.', range: 'Dart · TypeScript · Python' },
+  { idx: '02', name: 'Cloud & infrastructure', desc: 'AWS Lambda, ECS, SQS, EventBridge, ElastiCache. Docker, Terraform, GitHub Actions.', range: 'Terraform · AWS · Docker' },
   { idx: '03', name: 'API design & integration', desc: 'RESTful APIs, OAuth 2.0 (PKCE), shared frameworks across 7+ third-party providers.', range: 'REST · OAuth' },
   { idx: '04', name: 'Data & ELT pipelines', desc: 'PostgreSQL, DynamoDB, Redis, MongoDB. RAG engines with pgvector. LLM-powered processing.', range: 'SQL · LLM' },
-  { idx: '05', name: 'Testing & performance', desc: 'TDD with JUnit, pytest, Playwright. Load testing with k6. Spike-tested to 2M+ requests.', range: 'k6 · pytest' },
+  { idx: '05', name: 'Testing & performance', desc: 'TDD with pytest and integration testing with Localstack.', range: 'Localstack · pytest' },
 ]
 
 export default function Capabilities() {

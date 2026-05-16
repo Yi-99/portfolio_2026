@@ -1,5 +1,4 @@
 const CHANNELS = [
-  { label: 'ylim.8299@gmail.com', href: 'mailto:ylim.8299@gmail.com' },
   { label: 'yirang-lim', href: 'https://www.linkedin.com/in/yirang-lim', note: 'LinkedIn' },
   { label: 'Yi-99', href: 'https://github.com/Yi-99', note: 'GitHub' },
   { label: '(334) 922-9715', href: 'tel:+13349229715' },
@@ -16,7 +15,13 @@ export default function Contact() {
           Have a vision that<br />
           needs <em>engineering?</em>
         </h2>
-        <a href="mailto:ylim.8299@gmail.com" className="contact-cta reveal" data-delay="2" data-cursor="Send"
+        <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=ylim.8299@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="contact-cta reveal"
+          data-delay="2"
+          data-cursor="Send"
           onMouseMove={(e) => {
             const r = e.currentTarget.getBoundingClientRect()
             e.currentTarget.style.setProperty('--cx', ((e.clientX - r.left) / r.width * 100) + '%')
