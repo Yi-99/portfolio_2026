@@ -9,7 +9,7 @@ const EXPERIENCE = [
     href: 'https://heal.engineering',
     points: [
       'Designed shared API frameworks and OAuth 2.0 flows across 7 integrations',
-      'Built serverless email pipeline processing 50K+ messages with LLMs at 99.9% reliability',
+      'Built serverless email pipeline processing 50K+ messages with LLMs at 90%+ reliability',
       'Led architecture decisions for microservices and AI-powered automation',
     ],
   },

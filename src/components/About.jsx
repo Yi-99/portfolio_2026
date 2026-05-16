@@ -7,12 +7,10 @@ const DETAILS = [
 ]
 
 const HEADING_SEGMENTS = [
-  { text: 'Engineer with a' },
+  { text: 'Less How, and More ' },
+  { text: 'Why', em: true },
   { break: true },
-  { text: 'philosophy ' },
-  { text: 'minor', em: true },
-  { text: ' — because' },
-  { break: true },
+  { text: '— Because ' },
   { text: 'why', em: true },
   { text: ' matters as much as how.' },
 ]

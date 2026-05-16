@@ -2,9 +2,10 @@ import { useRef } from 'react'
 import Glyph from './Glyphs'
 
 const WORK = [
-  { id: '01', title: 'Logos · PhiloAI', year: '2025', role: 'Full-stack · AI', client: 'Personal Project', tags: ['LLM', 'React', 'RAG'], span: 'half', glyph: 'lattice', href: 'https://logos.philo-ai.com', thumb: '/logos-thumb.png', desc: 'AI-powered philosophical exploration platform using RAG pipelines to surface insights from classical texts. Built with React, vector search, and fine-tuned LLMs.' },
-  { id: '02', title: 'Nimbus Quote', year: '2025', role: 'Full-stack', client: 'Remi · Roofing SaaS', tags: ['3D', 'Google Maps', 'React'], span: 'half', glyph: 'grid', href: 'https://nimbusquote.com', thumb: '/nimbus-thumb.png', desc: 'Roofing estimation SaaS with 3D roof visualization on Google Maps. Instant quotes from aerial imagery with interactive measurement tools.' },
-  { id: '03', title: 'Dub.it', year: '2025', role: 'Lead engineer', client: '1st Place · Weber State', tags: ['Extension', 'ElevenLabs', 'Web'], span: 'half', glyph: 'wave', desc: 'Browser extension that dubs web videos in real-time using ElevenLabs voice synthesis. Won 1st place at Weber State hackathon.' },
+  // { id: '00', title: 'Archive · PhiloAI', year: '2026', role: 'Full-stack', client: 'Personal Project', tags: ['LLM', 'React'], span: 'half', glyph: 'grid', href: 'https://archive.philo-ai.com', thumb: '/archive-thumb.png', desc: 'A personal project archiving philosophical texts and insights. Built with React and various web technologies.' },
+  { id: '01', title: 'Logos · PhiloAI', year: '2026', role: 'Full-stack · AI', client: 'Personal Project', tags: ['LLM', 'React', 'RAG'], span: 'half', glyph: 'lattice', href: 'https://logos.philo-ai.com', thumb: '/logos-thumb.png', desc: 'AI-powered philosophical exploration platform using RAG pipelines to surface insights from classical texts. Built with React, vector search, and fine-tuned LLMs.' },
+  { id: '02', title: 'Nimbus Quote', year: '2026', role: 'Full-stack', client: 'JobNimbus AI Hackathon · $10K', tags: ['Solar API', 'Hunyuan3D', 'FastAPI'], span: 'half', glyph: 'grid', href: 'https://nimbusquote.com', thumb: '/nimbus-thumb.png', desc: 'Type an address, get a quote-ready roofing estimate. FastAPI + React pipeline pulls slanted roof area from Google Solar API and generates 3D house models via Replicate Hunyuan3D/Tripo3D. 5/5 addresses within ±10% on live accuracy benchmark.' },
+  { id: '03', title: 'Dub.it (TwelveLab)', year: '2025', role: 'Lead engineer', client: '1st Place · Weber State', tags: ['Extension', 'ElevenLabs', 'Web'], span: 'half', glyph: 'wave', href: 'https://devpost.com/software/elevenlab', loom: '2090f89a248446de8664ff06b365a806', desc: 'Browser extension that dubs web videos in real-time using ElevenLabs voice synthesis. Won 1st place at Weber State hackathon.' },
   { id: '04', title: 'Remi 2.0', year: '2025', role: 'Full-stack', client: '1st Place · JustBuild', tags: ['Google API', 'Solar', 'Maps'], span: 'half', glyph: 'grid', desc: 'Solar panel placement optimizer using Google Maps API for roof detection and energy output estimation. 1st place at JustBuild hackathon.' },
   { id: '05', title: 'Glod-AI', year: '2024', role: 'System design · Backend', client: 'Google Gemini Competition', tags: ['FastAPI', 'Supabase', 'Video'], span: 'featured', glyph: 'rings', href: 'https://www.linkedin.com/company/gl%C3%B6d-ai/about/?viewAsMember=true', video: 'uao6JdYdJZE', desc: 'Video analysis platform built for the Google Gemini competition. FastAPI backend with Supabase storage, processing video content through Gemini for intelligent summarization.' },
 ]
@@ -47,6 +48,14 @@ function WorkCard({ w, cascade }) {
               src={`https://www.youtube.com/embed/${w.video}`}
               title={w.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ width: '100%', height: '100%', border: 'none', borderRadius: '10px' }}
+            />
+          ) : w.loom ? (
+            <iframe
+              src={`https://www.loom.com/embed/${w.loom}`}
+              title={w.title}
+              allow="autoplay; fullscreen; picture-in-picture"
               allowFullScreen
               style={{ width: '100%', height: '100%', border: 'none', borderRadius: '10px' }}
             />
@@ -93,7 +102,7 @@ export default function Work() {
       <div className="shell">
         <div className="section-tag reveal">§ 03 — Projects</div>
         <h2 className="reveal" data-delay="1">
-          Things I've <em>built</em> — from hackathons<br />to production systems.
+          Things I've <em>built</em> — from hackathons<br />to production.
         </h2>
         <div className="work-grid">
           {WORK.map((w, i) => <WorkCard key={w.id} w={w} cascade={i + 1} />)}
