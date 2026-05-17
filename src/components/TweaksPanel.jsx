@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 function TweakSection({ label }) {
   return <div className="twk-sect">{label}</div>
@@ -80,9 +80,16 @@ export default function TweaksPanel({ sceneRef }) {
   const [tweaks, setTweaks] = useState({
     accent: '#7aa9ff',
     geometry: 'icosahedron',
-    density: 1.0,
+    density: 2.0,
     fog: 0.024,
   })
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => {
+      sceneRef.current?.setDensity(2.0)
+    })
+    return () => cancelAnimationFrame(id)
+  }, [sceneRef])
 
   const setTweak = useCallback((key, val) => {
     setTweaks((prev) => {
