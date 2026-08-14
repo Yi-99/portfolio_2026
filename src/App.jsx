@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import Scene from './components/Scene'
 import CustomCursor from './components/CustomCursor'
 import Nav from './components/Nav'
+import BackToTop from './components/BackToTop'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import About from './components/About'
@@ -38,6 +39,7 @@ export default function App() {
       <div className="grain" />
       <CustomCursor />
       <Nav />
+      <BackToTop />
       <main>
         <Hero />
         <Marquee />

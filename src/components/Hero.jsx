@@ -41,12 +41,11 @@ export default function Hero() {
 
       <div className="hero-meta">
         <div className="col reveal" data-delay="4">
-          <span>HEAL Access USA</span>
-          <span>Chandler, AZ</span>
+          <span>Lehi, UT</span>
         </div>
         <div className="col reveal" data-delay="4" style={{ alignItems: 'center', textAlign: 'center' }}>
           <span>Local time</span>
-          <span>{time} GMT</span>
+          <span>{time} MST</span>
         </div>
         <div className="col reveal" data-delay="4" style={{ alignItems: 'flex-end', textAlign: 'right' }}>
           <span>Languages</span>

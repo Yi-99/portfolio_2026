@@ -122,7 +122,7 @@ export default function About() {
               <p className="about-bio">
                 I build systems that scale — from serverless pipelines processing
                 50K+ messages to microservices handling 2M+ requests under stress.
-                4x hackathon champion with a bias toward shipping fast and iterating.
+                5x hackathon champion with a bias toward shipping fast and iterating.
               </p>
 
               <div className="about-details">
@@ -136,7 +136,7 @@ export default function About() {
 
               <div className="about-badges">
                 <div className="about-badge" style={{ transitionDelay: '0.1s' }}>
-                  <span className="about-badge-num">4x</span>
+                  <span className="about-badge-num">5x</span>
                   <span className="about-badge-lab">1st Place Hackathon Champion</span>
                 </div>
                 <div className="about-badge" style={{ transitionDelay: '0.2s' }}>

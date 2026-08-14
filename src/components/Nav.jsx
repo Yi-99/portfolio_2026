@@ -1,19 +1,15 @@
 import { useState, useEffect } from 'react'
+import { getActiveSection } from '../navState.js'
 
 export default function Nav() {
-  const [active, setActive] = useState('work')
+  const [active, setActive] = useState(null)
 
   useEffect(() => {
     const ids = ['about', 'studio', 'work', 'capabilities', 'contact']
     const sections = ids.map((id) => document.getElementById(id)).filter(Boolean)
 
     function onScroll() {
-      const y = window.scrollY + window.innerHeight * 0.35
-      let cur = 'work'
-      for (const s of sections) {
-        if (s.offsetTop <= y) cur = s.id
-      }
-      setActive(cur)
+      setActive(getActiveSection(sections, window.scrollY, window.innerHeight))
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -28,12 +24,7 @@ export default function Nav() {
 
   return (
     <nav className="nav" data-cursor="">
-      <div
-        className="nav-brand"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        data-cursor="Top"
-        style={{ cursor: 'pointer' }}
-      >
+      <div className="nav-brand">
         Yirang&nbsp;Lim
       </div>
       <button className={'nav-link' + (active === 'about' ? ' is-active' : '')} onClick={() => go('about')} data-cursor="About">About</button>
