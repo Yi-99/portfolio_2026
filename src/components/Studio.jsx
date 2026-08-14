@@ -2,29 +2,33 @@ const EXPERIENCE = [
   {
     company: 'HEAL Access USA',
     role: 'Staff Software Engineer',
-    period: '2025 — Present',
+    period: 'Sept 2025 - Present',
+    location: 'Chandler, AZ',
     logo: '/heal-logo.png',
     thumb: '/heal-thumb.png',
     initials: 'HA',
     href: 'https://heal.engineering',
+    dense: true,
     points: [
-      'Designed shared API frameworks and OAuth 2.0 flows across 7 integrations',
-      'Built serverless email pipeline processing 50K+ messages with LLMs at 90%+ reliability',
-      'Led architecture decisions for microservices and AI-powered automation',
+      "Led 0→1 design and delivery of a five-stage pipeline behind HEAL's AI persona engine with 3 engineers — normalizing and deduplicating multi-source health, financial, and email data into LLM-generated insights — with a pluggable per-domain abstraction and aggressive change-detection gating that keeps LLM spend proportional to actual data change.",
+      'Shipped a standalone, source-agnostic serverless email ingestion microservice with dual-mode ingestion — full historical backfill on connect, then continuous sync of incoming mail.',
+      'Designed and implemented using TDD, shared API frameworks and OAuth 2.0 authentication flows (PKCE) across 7 third-party integrations, enabling seamless cross-platform data access for end users',
     ],
   },
   {
     company: 'TDP Bakery',
     role: 'Full-stack Developer',
     period: '2025',
+    location: 'Chandler, AZ',
     logo: '/tdp-logo.svg',
     thumb: '/tdp-thumb.png',
     initials: 'TB',
     href: 'https://tdpbakery.com',
+    dense: true,
     points: [
-      'Saved $10K+ by replacing Docuware with in-house file storage feature',
-      'Rebuilt product management workflow and UI/UX end-to-end from Microsoft Access into a web application',
-      'Designed and solely implemented driver route management UI and .NET APIs',
+      'Saved $10K+ by replacing Docuware by creating an in-house file storage feature to an internal web application',
+      'Implemented a complete revision of product management workflow and UI/UX end-to-end, reliant on Microsoft Access into a web application; built and refactored dozens of API adhering to the REST principles',
+      'Envisioned a completely new UI/UX and logic workflow of and solely implemented the driver route management UI and design of .NET API',
     ],
   },
   {
@@ -76,7 +80,7 @@ function ExpCard({ exp, delay }) {
 
   const card = (
     <div
-      className="exp-card star-enter"
+      className={`exp-card star-enter${exp.dense ? ' exp-card-dense' : ''}`}
       data-cascade={delay + 1}
       data-cursor={exp.company}
       onMouseMove={onMove}
@@ -88,6 +92,7 @@ function ExpCard({ exp, delay }) {
           <div className="exp-thumb-overlay">
             <img src={exp.logo} alt="" className="exp-logo-img" />
             <h3 className="exp-company">{exp.company}</h3>
+            {exp.location ? <span className="exp-location">{exp.location}</span> : null}
             <span className="exp-period">{exp.period}</span>
           </div>
         </div>
@@ -95,6 +100,7 @@ function ExpCard({ exp, delay }) {
           <div className="exp-reveal-header">
             <h3 className="exp-company">{exp.company}</h3>
             <span className="exp-role">{exp.role}</span>
+            {exp.location ? <span className="exp-location">{exp.location}</span> : null}
             <span className="exp-period">{exp.period}</span>
           </div>
           <ul className="exp-points">

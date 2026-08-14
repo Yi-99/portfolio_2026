@@ -1,17 +1,87 @@
 import { useRef } from 'react'
 import Glyph from './Glyphs'
+import { getProjectCardClassName, resolveProjectMedia, setProjectMediaPlaybackState } from './projectMedia'
 
 const WORK = [
   // { id: '00', title: 'Archive · PhiloAI', year: '2026', role: 'Full-stack', client: 'Personal Project', tags: ['LLM', 'React'], span: 'half', glyph: 'grid', href: 'https://archive.philo-ai.com', thumb: '/archive-thumb.png', desc: 'A personal project archiving philosophical texts and insights. Built with React and various web technologies.' },
-  { id: '01', title: 'Logos · PhiloAI', year: '2026', role: 'Full-stack · AI', client: 'Personal Project', tags: ['LLM', 'React', 'RAG'], span: 'half', glyph: 'lattice', href: 'https://logos.philo-ai.com', thumb: '/logos-thumb.png', desc: 'AI-powered philosophical exploration platform using RAG pipelines to surface insights from classical texts. Built with React, vector search, and fine-tuned LLMs.' },
-  { id: '02', title: 'Nimbus Quote', year: '2026', role: 'Full-stack', client: 'AI Buildery Day @JobNimbus', tags: ['Google APIs', 'Replicate API', 'FastAPI', 'React', 'FastMCP', 'Three.js', 'deck.gl'], span: 'half', glyph: 'grid', href: 'https://nimbusquote.com', thumb: '/nimbus-thumb.png', desc: 'Type an address, get a quote-ready roofing estimate. FastAPI + React pipeline pulls slanted roof area from Google Solar API and generates 3D house models via Replicate Hunyuan3D/Tripo3D. 5/5 addresses within ±10% on live accuracy benchmark.' },
-  { id: '03', title: 'Dub.it (TwelveLab)', year: '2025', role: 'Lead engineer', client: '1st Place · Weber State', tags: ['Extension', 'ElevenLabs', 'Web'], span: 'half', glyph: 'wave', href: 'https://devpost.com/software/elevenlab', loom: '2090f89a248446de8664ff06b365a806', desc: 'Browser extension that dubs web videos in real-time using ElevenLabs voice synthesis. Won 1st place at Weber State hackathon.' },
-  { id: '04', title: 'Remi 2.0', year: '2025', role: 'Full-stack', client: '1st Place · JustBuild', tags: ['Google API', 'Solar', 'Maps'], span: 'half', glyph: 'grid', desc: 'Solar panel placement optimizer using Google Maps API for roof detection and energy output estimation. 1st place at JustBuild hackathon.' },
-  { id: '05', title: 'Glod-AI', year: '2024', role: 'System design · Backend', client: 'Google Gemini Competition', tags: ['FastAPI', 'Supabase', 'Video'], span: 'featured', glyph: 'rings', href: 'https://www.linkedin.com/company/gl%C3%B6d-ai/about/?viewAsMember=true', video: 'uao6JdYdJZE', desc: 'Video analysis platform built for the Google Gemini competition. FastAPI backend with Supabase storage, processing video content through Gemini for intelligent summarization.' },
+  { id: '01', title: 'Logos · PhiloAI', year: '2026', role: 'Full-stack · AI', client: 'Personal Project', tags: ['LLM', 'React', 'RAG'], glyph: 'lattice', href: 'https://logos.philo-ai.com', thumb: '/logos-thumb.png', desc: 'AI-powered philosophical exploration platform using RAG pipelines to surface insights from classical texts. Built with React, vector search, and fine-tuned LLMs.' },
+  { id: '02', title: 'Nimbus Quote', year: '2026', role: 'Full-stack', client: 'AI Buildery Day @JobNimbus', tags: ['Google APIs', 'Replicate API', 'FastAPI', 'React', 'FastMCP', 'Three.js', 'deck.gl'], glyph: 'grid', href: 'https://nimbusquote.com', localVideo: '/nimbus-quote-demo.mp4', poster: '/nimbus-thumb.png', thumb: '/nimbus-thumb.png', desc: 'Type an address, get a quote-ready roofing estimate. FastAPI + React pipeline pulls slanted roof area from Google Solar API and generates 3D house models via Replicate Hunyuan3D/Tripo3D. 5/5 addresses within ±10% on live accuracy benchmark.' },
+  { id: '03', title: 'Halda AI', year: '2026', role: 'Full-stack · AI', client: 'AI Builder Day · UVU + JustBuild', tags: ['Flutter', 'MCP', 'AI', 'Browser Extension'], href: 'https://www.linkedin.com/posts/yirang-lim_hackathon-ai-mcp-ugcPost-7481122986192818176-6u0V/', localVideo: '/halda-ai-demo.mp4', poster: '/halda-ai-demo-poster.jpg', videoOrientation: 'portrait', desc: 'Cross-platform college discovery app that matches students with universities through personalized recommendations, with an MCP-enabled backend and browser extension for application autofill.' },
+  { id: '04', title: 'Dub.it (TwelveLab)', year: '2025', role: 'Lead engineer', client: '1st Place · Weber State', tags: ['Extension', 'ElevenLabs', 'Web'], glyph: 'wave', href: 'https://devpost.com/software/elevenlab', loom: '2090f89a248446de8664ff06b365a806', desc: 'Browser extension that dubs web videos in real-time using ElevenLabs voice synthesis. Won 1st place at Weber State hackathon.' },
+  { id: '05', title: 'Remi 2.0', year: '2025', role: 'Full-stack', client: '1st Place · JustBuild', tags: ['Google API', 'Solar', 'Maps'], glyph: 'grid', desc: 'Solar panel placement optimizer using Google Maps API for roof detection and energy output estimation. 1st place at JustBuild hackathon.' },
+  { id: '06', title: 'Glod-AI', year: '2024', role: 'System design · Backend', client: 'Google Gemini Competition', tags: ['FastAPI', 'Supabase', 'Video'], glyph: 'rings', href: 'https://www.linkedin.com/company/gl%C3%B6d-ai/about/?viewAsMember=true', video: 'uao6JdYdJZE', desc: 'Video analysis platform built for the Google Gemini competition. FastAPI backend with Supabase storage, processing video content through Gemini for intelligent summarization.' },
 ]
+
+function ProjectMedia({ project, media, onPlaybackChange }) {
+  if (media.kind === 'native-video') {
+    const video = (
+      <video
+        className={`card-video card-video--${media.orientation}`}
+        src={media.src}
+        poster={media.poster}
+        title={`${project.title} demo`}
+        controls
+        playsInline
+        preload="metadata"
+        onPlay={() => onPlaybackChange(true)}
+        onPause={() => onPlaybackChange(false)}
+        onEnded={() => onPlaybackChange(false)}
+      />
+    )
+
+    if (media.orientation === 'portrait') {
+      return <div className="card-video-stage card-video-stage--portrait">{video}</div>
+    }
+
+    return video
+  }
+
+  if (media.kind === 'youtube') {
+    return (
+      <iframe
+        src={`https://www.youtube.com/embed/${media.id}`}
+        title={project.title}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        loading="lazy"
+        className="card-embed"
+      />
+    )
+  }
+
+  if (media.kind === 'loom') {
+    return (
+      <iframe
+        src={`https://www.loom.com/embed/${media.id}`}
+        title={project.title}
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowFullScreen
+        loading="lazy"
+        className="card-embed"
+      />
+    )
+  }
+
+  if (media.kind === 'image') {
+    return <img src={media.src} alt={project.title} className="card-image" loading="lazy" />
+  }
+
+  return (
+    <>
+      <span className="placeholder-tag">Placeholder · {media.glyph}</span>
+      <Glyph kind={media.glyph} />
+    </>
+  )
+}
 
 function WorkCard({ w, cascade }) {
   const ref = useRef(null)
+  const media = resolveProjectMedia(w)
+  const hasInteractiveMedia = ['native-video', 'youtube', 'loom'].includes(media.kind)
+
+  function onPlaybackChange(isPlaying) {
+    setProjectMediaPlaybackState(ref.current, media, isPlaying)
+  }
 
   function onMove(e) {
     const el = ref.current
@@ -35,7 +105,7 @@ function WorkCard({ w, cascade }) {
   const card = (
     <article
       ref={ref}
-      className={'card star-enter ' + w.span}
+      className={getProjectCardClassName(media)}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       data-cursor={'Case · ' + w.id}
@@ -43,30 +113,7 @@ function WorkCard({ w, cascade }) {
     >
       <div className="card-body">
         <div className="card-thumb">
-          {w.video ? (
-            <iframe
-              src={`https://www.youtube.com/embed/${w.video}`}
-              title={w.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              style={{ width: '100%', height: '100%', border: 'none', borderRadius: '10px' }}
-            />
-          ) : w.loom ? (
-            <iframe
-              src={`https://www.loom.com/embed/${w.loom}`}
-              title={w.title}
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-              style={{ width: '100%', height: '100%', border: 'none', borderRadius: '10px' }}
-            />
-          ) : w.thumb ? (
-            <img src={w.thumb} alt={w.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
-          ) : (
-            <>
-              <span className="placeholder-tag">Placeholder · {w.glyph}</span>
-              <Glyph kind={w.glyph} />
-            </>
-          )}
+          <ProjectMedia project={w} media={media} onPlaybackChange={onPlaybackChange} />
         </div>
         <div className="card-details">
           <p className="card-desc">{w.desc}</p>
@@ -78,7 +125,13 @@ function WorkCard({ w, cascade }) {
       </div>
       <div>
         <div className="card-head">
-          <div className="card-title">{w.title}</div>
+          <div className="card-title">
+            {w.href && hasInteractiveMedia ? (
+              <a href={w.href} target="_blank" rel="noopener noreferrer" className="card-title-link">
+                {w.title}<span aria-hidden="true"> ↗</span>
+              </a>
+            ) : w.title}
+          </div>
           <div className="card-meta">
             <div>{w.id} / {w.year}</div>
           </div>
@@ -90,7 +143,7 @@ function WorkCard({ w, cascade }) {
     </article>
   )
 
-  if (w.href) {
+  if (w.href && !hasInteractiveMedia) {
     return <a href={w.href} target="_blank" rel="noopener noreferrer" style={{ display: 'contents', textDecoration: 'none', color: 'inherit' }}>{card}</a>
   }
   return card

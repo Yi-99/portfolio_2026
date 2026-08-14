@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import Scene from './components/Scene'
 import CustomCursor from './components/CustomCursor'
 import Nav from './components/Nav'
@@ -9,20 +9,17 @@ import Work from './components/Work'
 import Studio from './components/Studio'
 import Capabilities from './components/Capabilities'
 import Contact from './components/Contact'
-import TweaksPanel from './components/TweaksPanel'
+import { shouldRemainRevealed } from './revealState'
 
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll('.reveal, .split, .star-enter')
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) {
-        if (e.isIntersecting) {
+        const wasRevealed = e.target.classList.contains('is-in')
+        if (shouldRemainRevealed(wasRevealed, e.isIntersecting)) {
           e.target.classList.add('is-in')
-          if (!e.target.classList.contains('star-enter')) {
-            io.unobserve(e.target)
-          }
-        } else if (e.target.classList.contains('star-enter')) {
-          e.target.classList.remove('is-in')
+          io.unobserve(e.target)
         }
       }
     }, { threshold: 0.18, rootMargin: '0px 0px -60px 0px' })
@@ -33,11 +30,10 @@ function useReveal() {
 
 export default function App() {
   useReveal()
-  const sceneRef = useRef(null)
 
   return (
     <>
-      <Scene ref={sceneRef} />
+      <Scene />
       <div className="veil" />
       <div className="grain" />
       <CustomCursor />
@@ -51,7 +47,6 @@ export default function App() {
         <Capabilities />
         <Contact />
       </main>
-      <TweaksPanel sceneRef={sceneRef} />
     </>
   )
 }
